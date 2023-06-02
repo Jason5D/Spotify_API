@@ -1,17 +1,20 @@
-import React from "react";
-import Track from "../Track/Track.js";
+import React, {useState} from "react";
+import Playing from "../Playing/Playing.js";
 import Tracklist from "../Tracklist/Tracklist.js"
 import SearchBar from "../SearchBar/SearchBar.js";
-import Playlist from "../Playlist/Playlist.js";
+import Queue from "../Queue/Queue.js";
 
 function App() {
+  const [queueItems, setQueueItems] = useState([]);
+
+  const handleAddToQueue = item => {
+    setQueueItems([...queueItems, item]);
+  };
+
   return (
     <div>
-      <h1>My Spotify API App</h1>
-      <SearchBar />
-      <Track />
-      <Playlist />
-      <Tracklist />
+      <SearchBar onAddToQueue={handleAddToQueue} />
+      <Queue queueItems={queueItems} />
     </div>
   );
 }
