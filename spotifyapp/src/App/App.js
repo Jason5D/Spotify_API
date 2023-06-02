@@ -9,7 +9,6 @@ function App() {
   return (
     <div>
       <h1>My Spotify API App</h1>
-      <SearchBar />
       <SearchResults />
       <Track />
       <Playlist />

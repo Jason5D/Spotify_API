@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import data from '../Data/data.json';
 
-function SearchBar() {
+function SearchBar({ onSearchResults }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
-  const handleSearch = () => {
-    const results = data.filter(item => item.track.toLowerCase().includes(searchTerm.toLowerCase()));
-    setSearchResults(results);
-  };
+  // const handleSearch = () => {
+  //   const results = data.filter(item => item.track.toLowerCase().includes(searchTerm.toLowerCase()));
+  //   onSearchResults(results);
+  //   setSearchTerm('');
+  // };
 
   const handleChange = (event) => {
-    setSearchTerm(event.target.value);
+    const { value } = event.target;
+    setSearchTerm(value);
+    const results = data.filter(item => item.track.toLowerCase().includes(value.toLowerCase()));
+    onSearchResults(results);
   };
 
   return (
     <div>
       <input type="text" placeholder="Search..." value={searchTerm} onChange={handleChange} />
-      <button onClick={handleSearch}>Search</button>
-
-      {searchResults.length > 0 && (
+{searchResults.length > 0 && (
         <div>
           <h2>Search Results</h2>
           {searchResults.map((item) => (
@@ -27,8 +29,12 @@ function SearchBar() {
           ))}
         </div>
       )}
+
+
+      {/* <button onClick={handleSearch}>Search</button> */}
     </div>
   );
 }
 
 export default SearchBar;
+
