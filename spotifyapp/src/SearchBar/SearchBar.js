@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import data from '../Data/data.json';
 
-function SearchBar({ onAddToQueue }) {
+function SearchBar({ onAddToQueue, onAddToPlaylist }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
@@ -34,6 +34,10 @@ function SearchBar({ onAddToQueue }) {
     onAddToQueue(item);
   };
 
+  const handleAddToPlaylist = item => {
+    onAddToPlaylist(item);
+  };
+
   return (
     <div>
       <input type="text" placeholder="Search..." value={searchTerm} onChange={handleChange} />
@@ -45,7 +49,8 @@ function SearchBar({ onAddToQueue }) {
           {searchResults.map(item => (
             <div key={item.id}>
               <p>{item.track} by {item.artist}, {item.album}</p>
-              <button onClick={() => handleAddToQueue(item)}>Add</button>
+              <button onClick={() => handleAddToQueue(item)}>Add To Queue</button>
+              <button onClick={() => handleAddToPlaylist(item)}>Add To Playlist</button>
             </div>
           ))}
         </div>
@@ -54,8 +59,7 @@ function SearchBar({ onAddToQueue }) {
   );
 }
 
-
-
 export default SearchBar;
+
 
 
