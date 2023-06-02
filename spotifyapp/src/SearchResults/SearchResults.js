@@ -15,7 +15,7 @@ function SearchResults() {
       <div>
         <h2>Search Results</h2>
         {results.map((item) => (
-          <p key={item.id}>{item.track}</p>
+          <p key={item.id}>{item.track} by {item.artist}, {item.album}</p>
         ))}
       </div>
     </div>
