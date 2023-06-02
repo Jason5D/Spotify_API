@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import data from '../Data/data.json';
+import React, { useState } from "react";
 
-function Playlist() {
-  const [playlistName, setPlaylistName] = useState('');
+function Playlist({ onDeletePlaylist }) {
+  const [playlistName, setPlaylistName] = useState("");
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [playlists, setPlaylists] = useState([]);
 
@@ -16,32 +15,34 @@ function Playlist() {
   };
 
   const handleCreatePlaylist = () => {
-    if (playlistName.trim() !== '') {
+    if (playlistName.trim() !== "") {
       const newPlaylist = {
         name: playlistName,
         tracks: playlistTracks,
       };
       setPlaylists([...playlists, newPlaylist]);
-      setPlaylistName('');
+      setPlaylistName("");
       setPlaylistTracks([]);
     }
   };
 
-  const handleRemoveFromPlaylist = (playlistIndex, trackId) => {
-    const updatedPlaylists = [...playlists];
-    const updatedTracks = updatedPlaylists[playlistIndex].tracks.filter((track) => track.id !== trackId);
-    updatedPlaylists[playlistIndex].tracks = updatedTracks;
-    setPlaylists(updatedPlaylists);
+  const handleRemoveFromPlaylist = (playlistIndex, trackIndex) => {
+    // Remove the track from the playlist
+    const updatedPlaylist = [...playlists];
+    updatedPlaylist[playlistIndex].tracks.splice(trackIndex, 1);
+    setPlaylists(updatedPlaylist);
   };
 
   const handleDeletePlaylist = (index) => {
+    // Delete the playlist from the playlists array
     const updatedPlaylists = [...playlists];
     updatedPlaylists.splice(index, 1);
     setPlaylists(updatedPlaylists);
   };
 
-  const handleEditPlaylist = (playlistIndex) => {
-    // Perform editing logic here, such as removing tracks from the playlist
+  const handleEditPlaylist = (index) => {
+    // Edit the playlist
+    // ...
   };
 
   return (
@@ -55,38 +56,29 @@ function Playlist() {
       />
       {playlistTracks.length > 0 ? (
         <div>
-          {playlistTracks.map((track) => (
+          {playlistTracks.map((track, index) => (
             <div key={track.id}>
               <p>
                 Track: {track.track} | Artist: {track.artist} | Album: {track.album}
               </p>
-              <button onClick={() => handleRemoveFromPlaylist(track.id)}>Remove</button>
+              <button onClick={() => handleRemoveFromPlaylist(0, index)}>Remove</button>
             </div>
           ))}
         </div>
       ) : (
         <p>No tracks added to the playlist.</p>
       )}
-      <h3>Search Results</h3>
-      {data.map((item) => (
-        <div key={item.id}>
-          <p>
-            Track: {item.track} | Artist: {item.artist} | Album: {item.album}
-          </p>
-          <button onClick={() => handleAddToPlaylist(item)}>Add to Playlist</button>
-        </div>
-      ))}
       <button onClick={handleCreatePlaylist}>Create New Playlist</button>
       <h3>Playlists</h3>
       {playlists.map((playlist, index) => (
         <div key={index}>
           <h4>{playlist.name}</h4>
-          {playlist.tracks.map((track) => (
+          {playlist.tracks.map((track, trackIndex) => (
             <div key={track.id}>
               <p>
                 Track: {track.track} | Artist: {track.artist} | Album: {track.album}
               </p>
-              <button onClick={() => handleRemoveFromPlaylist(index, track.id)}>Remove</button>
+              <button onClick={() => handleRemoveFromPlaylist(index, trackIndex)}>Remove</button>
             </div>
           ))}
           <button onClick={() => handleDeletePlaylist(index)}>Delete Playlist</button>
@@ -98,6 +90,10 @@ function Playlist() {
 }
 
 export default Playlist;
+
+
+
+
 
 
 

@@ -6,6 +6,14 @@ import Queue from "../Queue/Queue.js";
 
 function App() {
   const [queueItems, setQueueItems] = useState([]);
+  const [playlists, setPlaylists] = useState([]);
+
+  // Function to delete a playlist
+  const handleDeletePlaylist = (index) => {
+    const updatedPlaylists = [...playlists];
+    updatedPlaylists.splice(index, 1); // Remove the playlist at the specified index
+    setPlaylists(updatedPlaylists);
+  };
 
   const handleAddToQueue = (item) => {
     setQueueItems([...queueItems, item]);
@@ -30,7 +38,7 @@ function App() {
         onRemoveFromQueue={handleRemoveFromQueue}
         onClearQueue={handleClearQueue}
       />
-      <Playlist/>
+      <Playlist onDeletePlaylist={handleDeletePlaylist} />
     </div>
   );
 }
