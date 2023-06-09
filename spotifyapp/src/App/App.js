@@ -1,46 +1,15 @@
-import React, { useState } from "react";
-import Playing from "../Playing/Playing.js";
-import Playlist from "../Playlist/Playlist.js";
-import SearchBar from "../SearchBar/SearchBar.js";
-import Queue from "../Queue/Queue.js";
-
+import React, { useEffect, useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from "./Login.js";
+import Dashboard from "./Dashboard.js";
+ // Get the authorization code from the URL query string
+const code = new URLSearchParams(window.location.search).get("code");
+ // Define a functional component called App
 function App() {
-  const [queueItems, setQueueItems] = useState([]);
-  const [playlists, setPlaylists] = useState([]);
-
-  // Function to delete a playlist
-  const handleDeletePlaylist = (index) => {
-    const updatedPlaylists = [...playlists];
-    updatedPlaylists.splice(index, 1); // Remove the playlist at the specified index
-    setPlaylists(updatedPlaylists);
-  };
-
-  const handleAddToQueue = (item) => {
-    setQueueItems([...queueItems, item]);
-  };
-
-  const handleRemoveFromQueue = (item) => {
-    const updatedQueueItems = queueItems.filter(
-      (queueItem) => queueItem !== item
-    );
-    setQueueItems(updatedQueueItems);
-  };
-
-  const handleClearQueue = () => {
-    setQueueItems([]);
-  };
-
-  return (
-    <div>
-      <SearchBar onAddToQueue={handleAddToQueue} />
-      <Queue
-        queueItems={queueItems}
-        onRemoveFromQueue={handleRemoveFromQueue}
-        onClearQueue={handleClearQueue}
-      />
-      <Playlist onDeletePlaylist={handleDeletePlaylist} />
-    </div>
-  );
+  // Render the Dashboard component with the "code" prop if the "code" variable is truthy (i.e. not null or undefined)
+  // Otherwise, render the Login component
+  return  code ? <Dashboard code={code} /> : <Login />
 }
-
+ // Export the App component as the default export of this module
 export default App;
+
